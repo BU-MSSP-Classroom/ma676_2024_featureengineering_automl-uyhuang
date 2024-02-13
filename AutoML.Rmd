@@ -425,7 +425,7 @@ Since you've worked on it in MA679 please copy and paste your best model
 here.
 
 ```{r,echo=TRUE}
-fit1 <- lm(log(SalePrice) ~ `Garage Area`+`1st Flr SF`+`Gr Liv Area`+`Full Bath`+`Year Built`+`Year Remod/Add`,
+fit1 <- lm(log(SalePrice) ~ `Garage Area`+`1st Flr SF`+`Gr Liv Area`+`Full Bath`+`Year Built`,
            ames_raw_2008)
 ```
 
@@ -433,7 +433,6 @@ Your answer:
 
 ```         
 Please write your answer in full sentences.
-
 ```
 
 Please perform feature engineering on the Ames housing data that you
@@ -441,28 +440,33 @@ think will help with the prediction.
 
 ```{r,echo=TRUE}
 
-backward_model <- step(fit1, direction="backward")
+neighborhood_count <- count(group_by(ames_raw, Neighborhood), Neighborhood)
+names(neighborhood_count)[2] <- "freq"
+
+# Plot using ggplot
+ggplot(data = neighborhood_count, aes(x = Neighborhood, y = freq)) +
+  geom_bar(stat = 'identity') +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 ```
 
 Your answer:
 
 ```         
 Please write your answer in full sentences.
-
 ```
 
 Compare the result before and after the feature engineering step.
 
 ```{r,echo=TRUE}
-##
-##
+summary(fit1)
+fit2 <- lm(log(SalePrice) ~ `Garage Area`+`1st Flr SF`+`Gr Liv Area`+`Full Bath`+`Year Built`+`Year Remod/Add`,ames_raw_2008)
+summary（fit2)
 ```
 
 Your answer:
 
 ```         
-Please write your answer in full sentences.
-
+It fits better after feature enginnering
 ```
 
 ## AutoML
